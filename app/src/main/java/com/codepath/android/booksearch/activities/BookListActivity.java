@@ -1,15 +1,20 @@
 package com.codepath.android.booksearch.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.SearchView;
 //import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +27,7 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -38,6 +44,9 @@ public class BookListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_list);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Checkpoint #3
         // Switch Activity to Use a Toolbar
@@ -57,6 +66,13 @@ public class BookListActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
 
                 // Handle item click here:
+                Book book = abooks.get(position);
+
+                Intent selectedItemIntent = new Intent(getBaseContext(), BookDetailActivity.class);
+
+                selectedItemIntent.putExtra(Book.class.getSimpleName(), Parcels.wrap(book));
+
+                startActivity(selectedItemIntent);
                 // Checkpoint #5
                 // Hook up Book Detail View
                 // see https://guides.codepath.org/android/Using-the-RecyclerView#attaching-click-handlers-using-listeners for setting up click listeners
